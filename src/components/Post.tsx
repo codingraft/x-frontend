@@ -23,7 +23,12 @@ const Post = ({ post }: { post: Posts }) => {
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
       try {
-        await axios.delete(`/api/v1/posts/${post._id}`);
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/api/v1/posts/${post._id}`,
+          {
+            withCredentials: true,
+          }
+        );
         toast.success("Post deleted successfully");
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -36,15 +41,20 @@ const Post = ({ post }: { post: Posts }) => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["posts"], });
     },
   });
 
   const { mutate: likePost, isPending: isLiking } = useMutation({
     mutationFn: async () => {
       try {
-        const response = await axios.post(`/api/v1/posts/like/${post._id}`);
-        // console.log("response", response);
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/v1/posts/like/${post._id}`, {},
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("response", response);
         return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -76,9 +86,15 @@ const Post = ({ post }: { post: Posts }) => {
   const { mutate: commentPost, isPending: isCommentingPost } = useMutation({
     mutationFn: async () => {
       try {
-        const response = await axios.post(`/api/v1/posts/comment/${post._id}`, {
-          text: comment,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/v1/posts/comment/${post._id}`,
+          {
+            text: comment,
+          },
+          {
+            withCredentials: true,
+          }
+        );
         console.log("response", response);
         return response.data;
       } catch (error) {
@@ -190,7 +206,7 @@ const Post = ({ post }: { post: Posts }) => {
               >
                 <FaRegComment className="w-4 h-4  text-slate-500 group-hover:text-sky-400" />
                 <span className="text-sm text-slate-500 group-hover:text-sky-400">
-                  {(post.comments?.length ?? 0)}
+                  {post.comments?.length ?? 0}
                 </span>
               </div>
               {/* We're using Modal Component from DaisyUI */}

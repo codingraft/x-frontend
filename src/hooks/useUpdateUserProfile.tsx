@@ -8,7 +8,9 @@ const useUpdateUserProfile = () => {
   const { mutate: updateProfile, isPending: isUpdating } = useMutation({
     mutationFn: async (formData: FormDataEditProfile) => {
       try {
-        await axios.post(`/api/v1/users/update`, formData);
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/users/update`, formData, {
+          withCredentials: true,
+        });
         toast.success("Profile updated successfully");
       } catch (error) {
         if (axios.isAxiosError(error)) {

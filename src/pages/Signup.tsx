@@ -19,7 +19,12 @@ const SignUpPage = () => {
     password: "",
   });
 
-  const { mutate: login, isError, isPending, error } = useMutation({
+  const {
+    mutate: login,
+    isError,
+    isPending,
+    error,
+  } = useMutation({
     mutationFn: async ({
       email,
       username,
@@ -27,12 +32,19 @@ const SignUpPage = () => {
       password,
     }: SignupUserData) => {
       try {
-        await axios.post(`/api/v1/auth/signup`, {
-          email,
-          username,
-          fullName,
-          password,
-        });
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/v1/auth/signup`,
+          {
+            email,
+            username,
+            fullName,
+            password,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("Signup response:", res);
         toast.success("Signup successful");
       } catch (error) {
         if (axios.isAxiosError(error)) {

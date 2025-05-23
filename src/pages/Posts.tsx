@@ -19,19 +19,21 @@ const Posts = ({
   const getPostEndpoint = () => {
     switch (feedType) {
       case "forYou":
-        return "/api/v1/posts/all";
+        return `${import.meta.env.VITE_API_URL}/api/v1/posts/all`;
       case "following":
-        return "/api/v1/posts/following";
+        return `${import.meta.env.VITE_API_URL}/api/v1/posts/following`;
       case "posts":
-        return `/api/v1/posts/user/${username}`;
+        return `${import.meta.env.VITE_API_URL}/api/v1/posts/user/${username}`;
       case "likes":
-        return `/api/v1/posts/likes/${userId}`;
+        return `${import.meta.env.VITE_API_URL}/api/v1/posts/likes/${userId}`;
       default:
-        return "/api/v1/posts/all";
+        return `${import.meta.env.VITE_API_URL}/api/v1/posts/all`;
     }
   };
 
   const POST_ENDPOINT = getPostEndpoint();
+
+  // console.log("POST_ENDPOINT", POST_ENDPOINT);
 
   const {
     data: posts,
@@ -42,7 +44,9 @@ const Posts = ({
     queryKey: ["posts"],
     queryFn: async () => {
       try {
-        const posts = await axios.get(POST_ENDPOINT);
+        const posts = await axios.get(POST_ENDPOINT, {
+          withCredentials: true,
+        });
         // console.log(posts.data.data);
         return posts.data.data;
       } catch (error) {

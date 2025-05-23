@@ -12,7 +12,9 @@ const RightPanel = () => {
     queryKey: ["suggestedUsers"],
     queryFn: async () => {
       try {
-        const suggestedUsers = await axios.get("/api/v1/users/suggested");
+        const suggestedUsers = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/users/suggested`,{
+          withCredentials: true,
+        });
         return suggestedUsers.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {

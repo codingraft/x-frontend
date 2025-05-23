@@ -51,7 +51,9 @@ const ProfilePage = () => {
     queryKey: ["userProfile"],
     queryFn: async () => {
       try {
-        const user = await axios.get(`/api/v1/users/profile/${username}`);
+        const user = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/users/profile/${username}`,{
+          withCredentials: true,
+        });
         return user.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {

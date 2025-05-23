@@ -8,7 +8,9 @@ export const useFollow = () => {
   const { mutate: follow, isPending } = useMutation({
     mutationFn: async (userId: string) => {
       try {
-        await axios.post(`/api/v1/users/follow/${userId}`);
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/users/follow/${userId}`, {}, {
+          withCredentials: true,
+        });
         toast.success("Follow successful");
       } catch (error) {
         if (axios.isAxiosError(error)) {

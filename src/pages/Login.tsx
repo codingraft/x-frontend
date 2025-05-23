@@ -22,10 +22,16 @@ const LoginPage = () => {
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ username, password }: LoginUserData) => {
       try {
-        await axios.post(`/api/v1/auth/login`, {
-          username,
-          password,
-        });
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/v1/auth/login`,
+          {
+            username,
+            password,
+          },
+          {
+            withCredentials: true,
+          }
+        );
         toast.success("Login successful");
       } catch (error) {
         if (axios.isAxiosError(error)) {

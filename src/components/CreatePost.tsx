@@ -32,9 +32,11 @@ const CreatePost = () => {
       image: string | null;
     }) => {
       try {
-        await axios.post(`/api/v1/posts/create`, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/posts/create`, {
           text,
           image,
+        },{
+          withCredentials: true,
         });
         toast.success("Post created successfully");
       } catch (error) {

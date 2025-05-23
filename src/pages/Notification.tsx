@@ -16,7 +16,9 @@ const NotificationPage = () => {
     queryKey: ["notifications"],
     queryFn: async () => {
       try {
-        const notifications = await axios.get("/api/v1/notifications");
+        const notifications = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/notifications`, {
+          withCredentials: true,
+        });
         return notifications.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -30,7 +32,7 @@ const NotificationPage = () => {
   const {mutate: deleteNotification} = useMutation({
     mutationFn: async () => {
       try {
-        await axios.delete("/api/v1/notifications");
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/notifications`);
         toast.success("Notification deleted successfully");
       } catch (error) {
         if (axios.isAxiosError(error)) {
