@@ -16,9 +16,9 @@ const defaultQueryFn = async () => {
     return user.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const errorMessage = error.response?.data.message;
+      // const errorMessage = error.response?.data.message;
       console.error("Error during fetching user:", error);
-      toast.error(errorMessage || "Something went wrong");
+      toast.error("Login required");
       return null;
     } else {
       console.error("Unexpected error:", error);

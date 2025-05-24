@@ -32,7 +32,7 @@ const SignUpPage = () => {
       password,
     }: SignupUserData) => {
       try {
-        const res = await axios.post(
+       await axios.post(
           `${import.meta.env.VITE_API_URL}/api/v1/auth/signup`,
           {
             email,
@@ -44,7 +44,7 @@ const SignUpPage = () => {
             withCredentials: true,
           }
         );
-        console.log("Signup response:", res);
+        // console.log("Signup response:", res);
         toast.success("Signup successful");
       } catch (error) {
         if (axios.isAxiosError(error)) {
