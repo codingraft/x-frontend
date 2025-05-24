@@ -6,7 +6,7 @@ import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import XSvg from "../components/svg/X";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { SignupUserData } from "../types/types";
 import axios from "axios";
@@ -18,6 +18,8 @@ const SignUpPage = () => {
     fullName: "",
     password: "",
   });
+
+  	const queryClient = useQueryClient();
 
   const {
     mutate: login,
@@ -55,6 +57,9 @@ const SignUpPage = () => {
           console.error("Unexpected error:", error);
         }
       }
+    },
+     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
   });
 
