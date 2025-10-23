@@ -1,3 +1,86 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white dark:bg-yap-950 text-yap-900 dark:text-yap-50;
+    @apply font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold;
+  }
+}
+
+@layer components {
+  .yap-card {
+    @apply bg-white dark:bg-yap-900 rounded-xl shadow-card border border-yap-100 dark:border-yap-800;
+  }
+
+  .yap-btn {
+    @apply px-4 py-2 rounded-full font-medium transition-all duration-200;
+    @apply hover:scale-105 active:scale-95;
+  }
+
+  .yap-btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark;
+  }
+
+  .yap-btn-secondary {
+    @apply bg-yap-100 dark:bg-yap-800 text-yap-900 dark:text-yap-100;
+    @apply hover:bg-yap-200 dark:hover:bg-yap-700;
+  }
+
+  .yap-input {
+    @apply bg-yap-50 dark:bg-yap-900 border border-yap-200 dark:border-yap-800;
+    @apply rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary;
+    @apply transition-all duration-200;
+  }
+
+  .yap-icon-btn {
+    @apply p-2 rounded-full transition-all duration-200;
+    @apply hover:bg-yap-100 dark:hover:bg-yap-800;
+  }
+
+  /* Custom scrollbar styles */
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: #d4d4d4 transparent;
+  }
+
+  .dark .scrollbar-custom {
+    scrollbar-color: #404040 transparent;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #d4d4d4;
+    border-radius: 20px;
+  }
+
+  .dark .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #404040;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: #a3a3a3;
+  }
+
+  .dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: #525252;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

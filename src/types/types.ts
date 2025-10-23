@@ -44,6 +44,8 @@ export interface Posts {
   image?: string;
   likes?: string[];
   comments?: Comment[];
+  totalComments?: number;
+  hasMoreComments?: boolean;
   createdAt?: string;
 }
 

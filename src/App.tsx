@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import { Navigate, Route, Routes } from "react-router-dom";
 import LoadingSpinner from "./components/LoadingSpinner";
 import { User } from "./types/types";
+
 const Sidebar = lazy(() => import("./components/Sidebar"));
 const RightPanel = lazy(() => import("./components/RightPanel"));
 const NotificationPage = lazy(() => import("./pages/Notification"));
@@ -19,14 +20,19 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="h-screen flex justify-center items-center">
-        <LoadingSpinner size="lg" />
+      <div className="h-screen flex justify-center items-center bg-yap-50 dark:bg-yap-950">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-16 h-16 bg-yap-900 dark:bg-white rounded-2xl flex items-center justify-center animate-pulse">
+            <span className="text-white dark:text-yap-950 font-bold text-3xl">Y</span>
+          </div>
+          <LoadingSpinner size="lg" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex max-w-6xl mx-auto">
+    <div className="flex w-full min-h-screen bg-white dark:bg-yap-950">
       {authUser && <Sidebar />}
       <Routes>
         <Route
@@ -51,7 +57,30 @@ function App() {
         />
       </Routes>
       {authUser && <RightPanel />}
-      <Toaster position="bottom-center" />
+      <Toaster 
+        position="bottom-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#1f2937',
+            color: '#f9fafb',
+            borderRadius: '12px',
+            padding: '12px 16px',
+          },
+          success: {
+            iconTheme: {
+              primary: '#10b981',
+              secondary: '#f9fafb',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#f9fafb',
+            },
+          },
+        }}
+      />
     </div>
   );
 }

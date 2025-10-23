@@ -3,7 +3,6 @@ import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
-import XSvg from "./svg/X";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -42,73 +41,82 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="md:flex-[2_2_0] w-18 max-w-52">
-      <div className="sticky top-0 left-0 h-screen flex flex-col border-r border-gray-700 w-20 md:w-full">
-        <Link to="/" className="flex justify-center md:justify-start">
-          <XSvg className="px-2 w-12 h-12 rounded-full fill-white hover:bg-stone-900" />
+    <div className="md:flex-[2_2_0] w-20 md:w-full md:max-w-64 border-r border-yap-200 dark:border-yap-800">
+      <div className="sticky top-0 left-0 h-screen flex flex-col px-2 md:px-4 py-4 md:py-6 w-full">
+        {/* Logo */}
+        <Link to="/" className="flex items-center justify-center md:justify-start mb-6 md:mb-8">
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-yap-900 dark:bg-white rounded-2xl flex items-center justify-center">
+            <span className="text-white dark:text-yap-950 font-bold text-xl md:text-2xl">Y</span>
+          </div>
+          <span className="hidden md:block ml-3 text-xl md:text-2xl font-bold text-yap-900 dark:text-white">
+            Yap
+          </span>
         </Link>
-        <ul className="flex flex-col gap-3 mt-4">
-          <li className="flex justify-center md:justify-start">
+
+        {/* Navigation */}
+        <ul className="flex flex-col gap-1 md:gap-2 flex-1">
+          <li>
             <Link
               to="/"
-              className="flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer"
+              className="flex gap-4 items-center justify-center md:justify-start px-2 md:px-4 py-3 rounded-xl transition-all duration-200 hover:bg-yap-100 dark:hover:bg-yap-800 group"
             >
-              <MdHomeFilled className="w-8 h-8" />
-              <span className="text-lg hidden md:block">Home</span>
+              <MdHomeFilled className="w-6 h-6 md:w-7 md:h-7 text-yap-600 dark:text-yap-400 group-hover:text-yap-900 dark:group-hover:text-white" />
+              <span className="text-base font-medium hidden md:block text-yap-700 dark:text-yap-200 group-hover:text-yap-900 dark:group-hover:text-white">Home</span>
             </Link>
           </li>
-          <li className="flex justify-center md:justify-start">
+          <li>
             <Link
               to="/notifications"
-              className="flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer"
+              className="flex gap-4 items-center justify-center md:justify-start px-2 md:px-4 py-3 rounded-xl transition-all duration-200 hover:bg-yap-100 dark:hover:bg-yap-800 group"
             >
-              <IoNotifications className="w-6 h-6" />
-              <span className="text-lg hidden md:block">Notifications</span>
+              <IoNotifications className="w-6 h-6 md:w-7 md:h-7 text-yap-600 dark:text-yap-400 group-hover:text-yap-900 dark:group-hover:text-white" />
+              <span className="text-base font-medium hidden md:block text-yap-700 dark:text-yap-200 group-hover:text-yap-900 dark:group-hover:text-white">Notifications</span>
             </Link>
           </li>
-
-          <li className="flex justify-center md:justify-start">
+          <li>
             <Link
               to={`/profile/${authUser?.username}`}
-              className="flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer"
+              className="flex gap-4 items-center justify-center md:justify-start px-2 md:px-4 py-3 rounded-xl transition-all duration-200 hover:bg-yap-100 dark:hover:bg-yap-800 group"
             >
-              <FaUser className="w-6 h-6" />
-              <span className="text-lg hidden md:block">Profile</span>
+              <FaUser className="w-5 h-5 md:w-6 md:h-6 text-yap-600 dark:text-yap-400 group-hover:text-yap-900 dark:group-hover:text-white" />
+              <span className="text-base font-medium hidden md:block text-yap-700 dark:text-yap-200 group-hover:text-yap-900 dark:group-hover:text-white">Profile</span>
             </Link>
           </li>
         </ul>
+
+        {/* User Profile */}
         {authUser && (
-          <Link
-            to={`/profile/${authUser?.username}`}
-            className="mt-auto mb-10 flex gap-2 items-start transition-all duration-300 hover:bg-[#181818] py-2 px-4 rounded-full"
-          >
-            <div className="avatar hidden md:inline-flex">
-              <div className="w-8 rounded-full">
-                <img src={authUser?.profileImg || "/avatar-placeholder.png"} />
-              </div>
-            </div>
-            <div className="flex justify-between flex-1">
-              <div className="hidden md:block">
-                <p className="text-white font-bold text-sm w-20 truncate">
-                  {authUser?.fullName}
-                </p>
-                <p className="text-slate-500 text-sm">@{authUser?.username}</p>
-              </div>
+          <div className="mt-auto pt-4 border-t border-yap-200 dark:border-yap-800">
+            <div className="flex gap-2 md:gap-3 items-center px-1 md:px-2 py-2 md:py-3 rounded-xl hover:bg-yap-100 dark:hover:bg-yap-800 transition-all duration-200">
+              <Link to={`/profile/${authUser?.username}`} className="flex gap-3 items-center flex-1 min-w-0">
+                <div className="avatar">
+                  <div className="w-10 h-10 rounded-full ring-2 ring-yap-200 dark:ring-yap-700">
+                    <img src={authUser?.profileImg || "/avatar-placeholder.png"} alt="Profile" />
+                  </div>
+                </div>
+                <div className="hidden md:flex flex-col min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-yap-900 dark:text-yap-100 truncate">
+                    {authUser?.fullName}
+                  </p>
+                  <p className="text-xs text-yap-500 dark:text-yap-400 truncate">@{authUser?.username}</p>
+                </div>
+              </Link>
               {isPending ? (
-                <p className="text-white font-bold text-sm w-20 truncate">
-                  Logging out...
-                </p>
+                <div className="hidden md:block">
+                  <div className="w-5 h-5 border-2 border-yap-900 dark:border-white border-t-transparent rounded-full animate-spin"></div>
+                </div>
               ) : (
                 <BiLogOut
-                  className="w-5 h-5 cursor-pointer"
+                  className="w-5 h-5 cursor-pointer text-yap-500 hover:text-red-500 transition-colors duration-200 hidden md:block"
                   onClick={handleLogout}
                 />
               )}
             </div>
-          </Link>
+          </div>
         )}
       </div>
     </div>
   );
 };
+
 export default Sidebar;

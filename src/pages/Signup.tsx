@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
 import { ChangeEvent, FormEvent, useState } from "react";
-
 import { MdOutlineMail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
-import XSvg from "../components/svg/X";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { SignupUserData } from "../types/types";
@@ -19,7 +17,7 @@ const SignUpPage = () => {
     password: "",
   });
 
-  	const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const {
     mutate: login,
@@ -46,7 +44,6 @@ const SignUpPage = () => {
             withCredentials: true,
           }
         );
-        // console.log("Signup response:", res);
         toast.success("Signup successful");
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -73,82 +70,156 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto flex h-screen px-10">
-      <div className="flex-1 hidden lg:flex items-center  justify-center">
-        <XSvg className=" lg:w-2/3 fill-white" />
-      </div>
-      <div className="flex-1 flex flex-col justify-center items-center">
-        <form
-          className="lg:w-2/3  mx-auto md:mx-20 flex gap-4 flex-col"
-          onSubmit={handleSubmit}
-        >
-          <XSvg className="w-24 lg:hidden fill-white" />
-          <h1 className="text-4xl font-extrabold text-white">Join today.</h1>
-          <label className="input input-bordered rounded flex items-center gap-2">
-            <MdOutlineMail />
-            <input
-              type="email"
-              className="grow"
-              placeholder="Email"
-              name="email"
-              onChange={handleInputChange}
-              value={formData.email}
-            />
-          </label>
-          <div className="flex gap-4 flex-wrap">
-            <label className="input input-bordered rounded flex items-center gap-2 flex-1">
-              <FaUser />
-              <input
-                type="text"
-                className="grow "
-                placeholder="Username"
-                name="username"
-                onChange={handleInputChange}
-                value={formData.username}
-              />
-            </label>
-            <label className="input input-bordered rounded flex items-center gap-2 flex-1">
-              <MdDriveFileRenameOutline />
-              <input
-                type="text"
-                className="grow"
-                placeholder="Full Name"
-                name="fullName"
-                onChange={handleInputChange}
-                value={formData.fullName}
-              />
-            </label>
+    <div className="min-h-screen w-full bg-yap-50 dark:bg-yap-950 flex items-center justify-center p-4">
+      <div className="w-full max-w-lg">
+        {/* Logo and Branding */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-yap-900 dark:bg-white rounded-2xl mb-4">
+            <span className="text-white dark:text-yap-950 font-bold text-3xl">Y</span>
           </div>
-          <label className="input input-bordered rounded flex items-center gap-2">
-            <MdPassword />
-            <input
-              type="password"
-              className="grow"
-              placeholder="Password"
-              name="password"
-              onChange={handleInputChange}
-              value={formData.password}
-            />
-          </label>
-          <button className="btn rounded-full btn-primary text-white">
-            {isPending ? (
-              <span className="loading loading-spinner loading-sm"></span>
-            ) : (
-              "Sign up"
+          <h1 className="text-4xl font-bold text-yap-900 dark:text-white mb-2">
+            Join Yap Today
+          </h1>
+          <p className="text-yap-600 dark:text-yap-400">
+            Create your account and start sharing
+          </p>
+        </div>
+
+        {/* Signup Card */}
+        <div className="yap-card p-8">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email Input */}
+            <div>
+              <label className="block text-sm font-medium text-yap-700 dark:text-yap-300 mb-2">
+                Email
+              </label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-yap-400">
+                  <MdOutlineMail className="w-5 h-5" />
+                </div>
+                <input
+                  type="email"
+                  name="email"
+                  className="w-full yap-input pl-12"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Username and Full Name Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-yap-700 dark:text-yap-300 mb-2">
+                  Username
+                </label>
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-yap-400">
+                    <FaUser className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="text"
+                    name="username"
+                    className="w-full yap-input pl-12"
+                    placeholder="Username"
+                    value={formData.username}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-yap-700 dark:text-yap-300 mb-2">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-yap-400">
+                    <MdDriveFileRenameOutline className="w-5 h-5" />
+                  </div>
+                  <input
+                    type="text"
+                    name="fullName"
+                    className="w-full yap-input pl-12"
+                    placeholder="Full name"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Password Input */}
+            <div>
+              <label className="block text-sm font-medium text-yap-700 dark:text-yap-300 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-yap-400">
+                  <MdPassword className="w-5 h-5" />
+                </div>
+                <input
+                  type="password"
+                  name="password"
+                  className="w-full yap-input pl-12"
+                  placeholder="Create a password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Error Message */}
+            {isError && (
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-3">
+                <p className="text-sm text-red-600 dark:text-red-400">
+                  {error?.message || "Something went wrong"}
+                </p>
+              </div>
             )}
-          </button>
-          {isError && <p className="text-red-500">{error?.message}</p>}
-        </form>
-        <div className="flex flex-col lg:w-2/3 gap-2 mt-4">
-          <p className="text-white text-lg">Already have an account?</p>
-          <Link to="/login">
-            <button className="btn rounded-full btn-primary text-white btn-outline w-full">
-              Sign in
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isPending}
+              className="w-full px-6 py-3 bg-yap-900 dark:bg-white text-white dark:text-yap-900 font-semibold rounded-xl hover:bg-yap-800 dark:hover:bg-yap-100 transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isPending ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-white dark:border-yap-900 border-t-transparent rounded-full animate-spin"></div>
+                  <span>Creating account...</span>
+                </div>
+              ) : (
+                "Sign Up"
+              )}
             </button>
-          </Link>
+          </form>
+
+          {/* Sign In Link */}
+          <div className="mt-6 text-center">
+            <p className="text-yap-600 dark:text-yap-400">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="font-semibold text-yap-900 dark:text-white hover:underline transition-colors duration-200"
+              >
+                Sign in
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-8 text-center text-sm text-yap-500 dark:text-yap-400">
+          <p>© 2025 Yap, Inc. All rights reserved.</p>
         </div>
       </div>
     </div>
   );
 };
+
 export default SignUpPage;

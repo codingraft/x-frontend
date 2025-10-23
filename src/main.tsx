@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 
 const defaultQueryFn = async () => {
   try {
+    
     const user = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/me`,{
       withCredentials: true,
     });

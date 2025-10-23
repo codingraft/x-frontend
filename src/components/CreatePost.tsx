@@ -1,5 +1,5 @@
 import { CiImageOn } from "react-icons/ci";
-import { BsEmojiSmileFill } from "react-icons/bs";
+// import { BsEmojiSmileFill } from "react-icons/bs";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -22,7 +22,7 @@ const CreatePost = () => {
     mutate: createPost,
     isPending,
     isError,
-    error
+    error,
   } = useMutation({
     mutationFn: async ({
       text,
@@ -32,12 +32,16 @@ const CreatePost = () => {
       image: string | null;
     }) => {
       try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/posts/create`, {
-          text,
-          image,
-        },{
-          withCredentials: true,
-        });
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/v1/posts/create`,
+          {
+            text,
+            image,
+          },
+          {
+            withCredentials: true,
+          }
+        );
         toast.success("Post created successfully");
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -76,59 +80,103 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="flex p-4 items-start gap-4 border-b border-gray-700">
-      <div className="avatar">
-        <div className="w-8 rounded-full">
-          <img src={authUser?.profilePicture || "/avatar-placeholder.png"} />
-        </div>
-      </div>
-      <form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
-        <textarea
-          className="textarea w-full p-0 text-lg resize-none border-none focus:outline-none  border-gray-800"
-          placeholder="What is happening?!"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        {image && (
-          <div className="relative w-72 mx-auto">
-            <IoCloseSharp
-              className="absolute top-0 right-0 text-white bg-gray-800 rounded-full w-5 h-5 cursor-pointer"
-              onClick={() => {
-                setImg(null);
-                if (imgRef.current) {
-                  imgRef.current.value = "";
-                }
-              }}
-            />
+    <div className="bg-white dark:bg-yap-900 border-b border-yap-100 dark:border-yap-800 p-4 md:p-6">
+      <div className="flex gap-3 md:gap-4">
+        {/* Avatar */}
+        <div className="flex-shrink-0">
+          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full ring-2 ring-yap-100 dark:ring-yap-800 overflow-hidden">
             <img
-              src={image}
-              className="w-full mx-auto h-72 object-contain rounded"
+              src={authUser?.profilePicture || "/avatar-placeholder.png"}
+              alt="Your avatar"
+              className="w-full h-full object-cover"
             />
           </div>
-        )}
-
-        <div className="flex justify-between border-t py-2 border-t-gray-700">
-          <div className="flex gap-1 items-center">
-            <CiImageOn
-              className="fill-primary w-6 h-6 cursor-pointer"
-              onClick={() => imgRef.current && imgRef.current.click()}
-            />
-            <BsEmojiSmileFill className="fill-primary w-5 h-5 cursor-pointer" />
-          </div>
-          <input
-            type="file"
-            accept="image/*"
-            hidden
-            ref={imgRef}
-            onChange={handleImgChange}
-          />
-          <button className="btn btn-primary rounded-full btn-sm text-white px-4">
-            {isPending ? "Posting..." : "Post"}
-          </button>
         </div>
-        {isError && <div className="text-red-500">{error?.message}</div>}
-      </form>
+
+        {/* Form */}
+        <form
+          className="flex flex-col flex-1 gap-3 md:gap-4 min-w-0"
+          onSubmit={handleSubmit}
+        >
+          <textarea
+            className="w-full bg-transparent text-yap-900 dark:text-yap-100 text-base md:text-lg resize-none border-none focus:outline-none placeholder-yap-400 dark:placeholder-yap-500"
+            placeholder="What's on your mind?"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={3}
+          />
+
+          {image && (
+            <div className="relative rounded-xl md:rounded-2xl overflow-hidden border border-yap-200 dark:border-yap-700 bg-yap-100 dark:bg-yap-800">
+              <button
+                type="button"
+                className="absolute top-2 right-2 md:top-3 md:right-3 p-1.5 md:p-2 bg-yap-900/80 hover:bg-yap-900 text-white rounded-full transition-all duration-200"
+                onClick={() => {
+                  setImg(null);
+                  if (imgRef.current) {
+                    imgRef.current.value = "";
+                  }
+                }}
+              >
+                <IoCloseSharp className="w-4 h-4 md:w-5 md:h-5" />
+              </button>
+              <img
+                src={image}
+                className="w-full max-h-96 md:max-h-[600px] object-contain"
+                alt="Upload preview"
+              />
+            </div>
+          )}
+
+          <div className="flex items-center justify-between pt-3 border-t border-yap-100 dark:border-yap-800">
+            <div className="flex gap-1 md:gap-2">
+              <button
+                type="button"
+                className="p-1.5 md:p-2 rounded-full hover:bg-yap-100 dark:hover:bg-yap-800 text-yap-900 dark:text-white transition-all duration-200"
+                onClick={() => imgRef.current && imgRef.current.click()}
+              >
+                <CiImageOn className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+              {/* <button
+                type="button"
+                className="p-1.5 md:p-2 rounded-full hover:bg-yap-100 dark:hover:bg-yap-800 text-yap-900 dark:text-white transition-all duration-200"
+              >
+                <BsEmojiSmileFill className="w-4 h-4 md:w-5 md:h-5" />
+              </button> */}
+            </div>
+
+            <input
+              type="file"
+              accept="image/*"
+              hidden
+              ref={imgRef}
+              onChange={handleImgChange}
+            />
+
+            <button
+              type="submit"
+              disabled={isPending || (!text.trim() && !image)}
+              className="px-4 md:px-6 py-1.5 md:py-2 bg-yap-900 dark:bg-white text-white dark:text-yap-900 font-medium text-sm md:text-base rounded-full hover:bg-yap-800 dark:hover:bg-yap-100 transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isPending ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white dark:border-yap-900 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="hidden md:inline">Posting...</span>
+                </div>
+              ) : (
+                "Post"
+              )}
+            </button>
+          </div>
+          {isError && (
+            <div className="text-red-500 text-xs md:text-sm">
+              {error?.message}
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };
+
 export default CreatePost;
